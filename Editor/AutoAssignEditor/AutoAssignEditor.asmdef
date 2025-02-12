@@ -1,0 +1,16 @@
+{
+    "name": "AutoAssignEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:648ec097dff0a664ab3c3310f637cfe8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
