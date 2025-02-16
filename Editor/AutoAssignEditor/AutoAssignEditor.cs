@@ -1,9 +1,9 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using AutoAssign;
 using System;
-using System.Reflection;
 using System.Collections.Generic;
-using AutoAssign;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
 namespace AutoAssignEditor
 {
@@ -23,7 +23,7 @@ namespace AutoAssignEditor
             }
         }
 
-        private List<FieldData> autoAssignFields = new();
+        private readonly List<FieldData> autoAssignFields = new();
 
         static AutoAssignEditor()
         {
@@ -84,7 +84,7 @@ namespace AutoAssignEditor
 
         private void UpdateAutoAssignFields()
         {
-            if (target == null) return; // ✅ Prevents errors if the object is missing
+            if (target == null) return;
 
             bool updated = false;
 
@@ -102,7 +102,7 @@ namespace AutoAssignEditor
 
             if (updated)
             {
-                EditorUtility.SetDirty(target); // Mark object as changed
+                EditorUtility.SetDirty(target);
             }
         }
 
@@ -134,18 +134,16 @@ namespace AutoAssignEditor
                 case AssignTarget.Child:
                     return monoTarget.GetComponentInChildren(componentType, true);
 
+                case AssignTarget.Parent:
+                    return monoTarget.GetComponentInParent(componentType, true);
+
                 case AssignTarget.Any:
-                    return FindAnyComponentInScene(componentType);
+                    return FindFirstObjectByType(componentType) as Component;
 
                 default:
                     Debug.LogWarning($"Unknown sourceType '{sourceType}' in {monoTarget.name}");
                     return null;
             }
-        }
-
-        private Component FindAnyComponentInScene(Type componentType)
-        {
-            return FindFirstObjectByType(componentType) as Component;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace AutoAssign
     {
         Self,
         Child,
+        Parent,
         Any
     }
 }
