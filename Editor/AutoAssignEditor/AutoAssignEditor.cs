@@ -114,9 +114,17 @@ namespace AutoAssignEditor
             {
                 object fieldValue = fieldData.Field.GetValue(target);
 
+                EditorGUILayout.BeginHorizontal();
+
                 GUI.enabled = false;
                 EditorGUILayout.ObjectField(fieldData.Field.Name, (Component)fieldValue, fieldData.Field.FieldType, true);
                 GUI.enabled = true;
+
+                // Show where the value is assigned from
+                string sourceLabel = $"🔍 Looking in: {fieldData.SourceType.ToString().ToUpper()}";
+                EditorGUILayout.LabelField(sourceLabel, GUILayout.Width(120));
+
+                EditorGUILayout.EndHorizontal();
             }
         }
 
