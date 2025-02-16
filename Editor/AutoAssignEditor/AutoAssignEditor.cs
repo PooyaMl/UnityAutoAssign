@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using System;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace AutoAssignEditor
             }
         }
 
-        private List<FieldData> autoAssignFields = new List<FieldData>();
+        private List<FieldData> autoAssignFields = new();
 
         static AutoAssignEditor()
         {
@@ -34,13 +34,20 @@ namespace AutoAssignEditor
         {
             foreach (var obj in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
             {
+                if (obj == null) continue;
+
                 var editor = CreateEditor(obj) as AutoAssignEditor;
-                editor?.UpdateAutoAssignFields();
+                if (editor != null)
+                {
+                    editor.UpdateAutoAssignFields();
+                }
             }
         }
 
         private void OnEnable()
         {
+            if (target == null) return;
+
             CacheAutoAssignFields();
             UpdateAutoAssignFields();
         }
@@ -58,14 +65,14 @@ namespace AutoAssignEditor
                 {
                     if (field.IsPublic)
                     {
-                        Debug.LogError($"[AutoAssignComponent] cannot be used on public fields! " +
+                        Debug.LogError($"[AutoAssign] cannot be used on public fields! " +
                                        $"Field '{field.Name}' in '{targetType.Name}' must be private (add [SerializeField] if needed).");
                         continue;
                     }
 
                     if (!typeof(Component).IsAssignableFrom(field.FieldType))
                     {
-                        Debug.LogError($"[AutoAssignComponent] can only be used on Component types! " +
+                        Debug.LogError($"[AutoAssign] can only be used on Component types! " +
                                        $"Field '{field.Name}' in '{targetType.Name}' is not a Component.");
                         continue;
                     }
@@ -77,6 +84,8 @@ namespace AutoAssignEditor
 
         private void UpdateAutoAssignFields()
         {
+            if (target == null) return; // ✅ Prevents errors if the object is missing
+
             bool updated = false;
 
             foreach (var fieldData in autoAssignFields)
