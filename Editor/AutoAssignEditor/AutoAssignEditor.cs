@@ -122,7 +122,7 @@ namespace AutoAssignEditor
 
                 // Show where the value is assigned from
                 string sourceLabel = $"🔍 Looking in: {fieldData.SourceType.ToString().ToUpper()}";
-                EditorGUILayout.LabelField(sourceLabel, GUILayout.Width(120));
+                EditorGUILayout.LabelField(sourceLabel, GUILayout.Width(150));
 
                 EditorGUILayout.EndHorizontal();
             }
